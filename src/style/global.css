@@ -1,0 +1,17 @@
+:root{
+    --blue:#003580;
+}
+body{
+    color: white;
+}
+button{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+.container{
+    width: 80%;
+    max-width: 1140px;
+    margin: auto;
+}
