@@ -1,0 +1,34 @@
+.mailList{
+    padding: 50px 0;
+    background: rgb(1, 22, 68);
+}
+.mailBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.mailTitle h1{
+    color: white;
+    font-size: 30px;
+    font-size: 300;
+}
+.mailTitle p{
+    color: #FFFFFF70;
+    font-size: 18px;
+    font-size: 700;
+    margin: 30px 0;
+}
+.mailBoxCon input{
+    width: 400px;
+    padding: 20px 10px;
+    border-radius: 5px;
+}
+.mailBoxCon button{
+    margin-left: 15px;
+    background: var(--blue);
+    color: #FFFFFF;
+    padding: 18px 30px;
+    border-radius: 5px;
+    font-size: 18px;
+}

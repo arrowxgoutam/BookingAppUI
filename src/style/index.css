@@ -2,3 +2,12 @@
 @import url('./header.css');
 @import url('./home.css');
 @import url('./navbar.css');
+@import url('./featured.css');
+@import url('./property.css');
+@import url('./houselove.css');
+@import url('./maillist.css');
+@import url('./footer.css');
+
+/* Pages  */
+
+@import url('./pages/list.css');

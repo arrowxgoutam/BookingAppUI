@@ -9,8 +9,10 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css'; 
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({type}) => {
+    const [destination, setDestination] = useState("");
     // Date Range
     const [openDate, setOpenDate] = useState(false);
     const [date, setDate] = useState([
@@ -28,6 +30,23 @@ const Header = () => {
         children: 0,
         room: 1,
     });
+
+    const navigate = useNavigate()
+
+
+    const handleOption = (name, operation) => {
+        setOptions((prev) => {
+            return {
+                ...prev,
+                [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
+            };
+        });
+    };
+
+    const handleSearch = () => {
+        navigate("/hotels", {state:{ destination, date, options }})
+    }
+
 
   return (
     <div className="header">
@@ -54,7 +73,9 @@ const Header = () => {
                     <span>Airport Taxis</span>
                 </div>
             </div>
-            <h1 className="headerTitle">
+           { type !=="list" &&
+           <>
+           <h1 className="headerTitle">
                 Find your next stay
             </h1>
             <p className="headerDesc">
@@ -63,7 +84,12 @@ const Header = () => {
             <div className="headerSearch">
                 <div className="headerSearchItem">
                     <FontAwesomeIcon icon={faBed} className="headerIcon" />
-                    <input type="text" placeholder='Where are you going?' className='headerSearchInput' />
+                    <input 
+                        type="text" 
+                        placeholder='Where are you going?' 
+                        className='headerSearchInput' 
+                        onChange={e=>setDestination(e.target.value)}
+                        />
                 </div>
                 <div className="headerSearchItem">
                     <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />
@@ -74,39 +100,47 @@ const Header = () => {
                     moveRangeOnFirstSelection={false}
                     ranges={date}
                     className="date"
+                    minDate={new Date()}
                     />}
                 </div>
                 <div className="headerSearchItem">
                     <FontAwesomeIcon icon={faPerson} className="headerIcon" />
-                    <span className="headerSearchText">{`${options.adult} Adult : ${options.children} Children : ${options.room} Room`}</span>
-                    <div className="options">
+                    <span onClick={()=>setOpenOptions(!openOptions)} className="headerSearchText">{`${options.adult} Adult : ${options.children} Children : ${options.room} Room`}</span>
+                   { openOptions && <div className="options">
                         <div className="optionItem">
                             <span className="optionText">Adult</span>
-                            <button className="optionCunterButton">-</button>
-                            <span className='optionCunterNumber'>1</span>
-                            <button className="optionCunterButton">+</button>
+                            <div className="optionContainer">
+                                <button disabled={options.adult <= 1} className="optionCunterButton" onClick={()=>handleOption("adult", "d")}>-</button>
+                                <span className='optionCunterNumber'>{options.adult}</span>
+                                <button className="optionCunterButton" onClick={()=>handleOption("adult", "i")}>+</button>
+                            </div>
                         </div>
                         <div className="optionItem">
-                            <span className="optionText">Adult</span>
-                            <button className="optionCunterButton">-</button>
-                            <span className='optionCunterNumber'>1</span>
-                            <button className="optionCunterButton">+</button>
+                            <span className="optionText">Children</span>
+                            <div className="optionContainer">
+                                <button disabled={options.children <= 0} className="optionCunterButton" onClick={()=>handleOption("children", "d")}>-</button>
+                                <span className='optionCunterNumber'>{options.children}</span>
+                                <button className="optionCunterButton" onClick={()=>handleOption("children", "i")}>+</button>
+                            </div>
                         </div>
                         <div className="optionItem">
-                            <span className="optionText">Adult</span>
-                            <button className="optionCunterButton">-</button>
-                            <span className='optionCunterNumber'>1</span>
-                            <button className="optionCunterButton">+</button>
+                            <span className="optionText">Room</span>
+                            <div className="optionContainer">
+                                <button disabled={options.room <= 1} className="optionCunterButton" onClick={()=>handleOption("room", "d")}>-</button>
+                                <span className='optionCunterNumber'>{options.room}</span>
+                                <button className="optionCunterButton" onClick={()=>handleOption("room", "i")}>+</button>
+                            </div>
                         </div>
                         
-                    </div>
+                    </div>}
                 </div>
                 <div className="headerSearchItem">
-                    <button className="headerSerchBtn">
+                    <button className="headerSerchBtn" onClick={handleSearch}>
                         Search
                     </button>
                 </div>
             </div>
+            </>}
         </div>
     </div>
   )
